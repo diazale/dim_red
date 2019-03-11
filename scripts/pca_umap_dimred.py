@@ -78,7 +78,7 @@ sampling_mask = get_sampling_mask(callset['variants/CHROM'],stratified=True)
 mask_dictionary(callset, sampling_mask)
 genotype_array = np.sum(callset['calldata/GT'],axis=2)
 transposed_genotype_matrix = np.array(genotype_array).transpose()
-print('Features randomly sampled from all variants: \n', mask_dictionary) 
+print('Features randomly sampled from all variants (CHROM,POS): \n', list(zip(callset['variants/CHROM'], callset['variants/POS']))) 
 # # Dimension Reduction and Visualization
 pca_instace = PCA()
 pca_cord = pca_instace.fit_transform(transposed_genotype_matrix)
@@ -95,7 +95,7 @@ for superpop in superpops:
     for pop in pops_of_superpop[superpop]:
         p.scatter(pca_cord[indices_for_pop[pop], d1], pca_cord[indices_for_pop[pop], d2], 
                  legend=pop_desc[pop], color = color_dict[pop], marker = marker_map[superpop])
-output_file("pca_t2.html", title="PCA top 2 components")
+output_file("../plots/pca_t2.html", title="PCA top 2 components")
 show(p)
 
 #Only UMAP(A non-linear dim red)
@@ -104,7 +104,7 @@ for superpop in superpops:
     for pop in pops_of_superpop[superpop]:
         p.scatter(umap_cord[indices_for_pop[pop], d1], umap_cord[indices_for_pop[pop], d2], 
                  legend=pop_desc[pop], color = color_dict[pop], marker = marker_map[superpop])
-output_file("only_umap_t2.html", title="Only UMAP")
+output_file("../plots/only_umap_t2.html", title="Only UMAP")
 show(p)
 
 # 10 PC followed by UMAP
@@ -113,5 +113,5 @@ for superpop in superpops:
     for pop in pops_of_superpop[superpop]:
         p.scatter(pca_umap_cord[indices_for_pop[pop], d1], pca_umap_cord[indices_for_pop[pop], d2], 
                  legend=pop_desc[pop], color = color_dict[pop],marker = marker_map[superpop])
-output_file("pca_umap_t2.html", title="PCA-UMAP top 2 components")
+output_file("../plots/pca_umap_t2.html", title="PCA-UMAP top 2 components")
 show(p)
